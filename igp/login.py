@@ -2,6 +2,7 @@
 
 from typing import Dict
 import requests
+import certifi
 
 from .config import base_url, headers
 
@@ -38,6 +39,12 @@ def login(username: str, password: str, remember: bool = False) -> Dict:
         'ajax': 1,
     }
 
-    response = requests.post(base_url, headers=headers, params=params, data=payload)
+    response = requests.post(
+        base_url,
+        headers=headers,
+        params=params,
+        data=payload,
+        verify=certifi.where(),
+    )
     response.raise_for_status()
     return response.json()
